@@ -2,13 +2,18 @@
 export default { name: 'Editor' }
 </script>
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue';
+import useSchemaStore from '@/store/schema';
 
 defineProps({
   msg: String
 })
 
 const count = ref(0)
+
+onMounted(() => {
+    const schemaStore = useSchemaStore();
+})
 </script>
 
 <template>

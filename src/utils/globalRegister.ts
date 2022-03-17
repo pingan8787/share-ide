@@ -1,11 +1,3 @@
-
-
-// register(require.context('@/exe-components', true, /.vue/))
-
-// const register = ctx => {
-
-// }
-
 const Components = import.meta.glob('../components/**/*.vue');
 const ExeComponents = import.meta.glob('../exe-components/**/*.vue');
 

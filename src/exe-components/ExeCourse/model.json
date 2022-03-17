@@ -1,0 +1,11 @@
+{
+    "name": "课程卡片",
+    "icon": "el-icon-postcard",
+    "attrs": {
+        "cover": {
+            "label": "封面图片",
+            "type": "image",
+            "value": "https://www.qq.com"
+        }
+    }
+}
