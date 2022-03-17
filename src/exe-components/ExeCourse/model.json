@@ -1,6 +1,6 @@
 {
     "name": "课程卡片",
-    "icon": "el-icon-postcard",
+    "icon": "data-analysis",
     "attrs": {
         "cover": {
             "label": "封面图片",

@@ -1,3 +1,5 @@
+// https://router.vuejs.org/zh/guide/#javascript
+
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import IndexPage from '@/pages/index.vue';

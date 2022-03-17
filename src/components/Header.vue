@@ -1,6 +1,3 @@
-<script>
-export default { name: 'Header' }
-</script>
 <script setup>
 import { ref } from 'vue';
 import router from '@/router';

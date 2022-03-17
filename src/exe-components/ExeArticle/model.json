@@ -1,6 +1,6 @@
 {
     "name": "文章卡片",
-    "icon": "el-icon-postcard",
+    "icon": "document",
     "attrs": {
         "cover": {
             "label": "封面图片",

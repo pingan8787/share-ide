@@ -1,6 +1,3 @@
-<script>
-export default { name: 'ExeKnowledge' }
-</script>
 <script setup>
 import { ref } from 'vue'
 

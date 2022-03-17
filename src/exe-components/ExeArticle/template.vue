@@ -1,6 +1,3 @@
-<script>
-export default { name: 'ExeArticle' }
-</script>
 <script setup>
 import { ref } from 'vue'
 

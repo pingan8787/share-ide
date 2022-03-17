@@ -1,6 +1,6 @@
 {
     "name": "知识卡片",
-    "icon": "el-icon-postcard",
+    "icon": "collection",
     "attrs": {
         "cover": {
             "label": "封面图片",
