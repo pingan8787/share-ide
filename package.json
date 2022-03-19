@@ -17,6 +17,7 @@
     "@types/webpack-env": "^1.16.3",
     "@vitejs/plugin-vue": "^2.2.0",
     "element-plus": "^2.1.4",
+    "lodash": "^4.17.21",
     "pinia": "^2.0.12",
     "sass": "^1.49.9",
     "unplugin-auto-import": "^0.6.6",

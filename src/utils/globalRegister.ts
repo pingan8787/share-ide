@@ -3,24 +3,23 @@ import * as ElIcons from '@element-plus/icons'
 
 const Components = import.meta.glob('../components/**/*.vue');
 const ExeComponents = import.meta.glob('../exe-components/**/*.vue');
+const ExeSchemaTemp = import.meta.glob('../exe-schema-template/**/*.vue');
+const ExeSchemaConfig = import.meta.glob('../exe-schema-template/**/config.js');
 
 const register = async (app: any, ctx: any) => {
-    /**
-     * 约定文件目录必须是 ../一层目录/目标组件 格式
-     */
     for (const path in ctx) {
-        const [,, name] = path.split('/');
         const mod = await ctx[path]();
         const compoent = mod.default || mod;
-        app.component(name, compoent)
+        app.component(compoent.name, compoent)
     }
     return app;
 }
 
 // 全局注册所有组件
-export const globalRegister = async (app: any) => {
+export const globalRegisterComponent = async (app: any) => {
     app = await register(app, Components);    // 注册全局布局组件
     app = await register(app, ExeComponents); // 注册全局物料组件
+    app = await register(app, ExeSchemaTemp); // 注册全局 Schema 组件
 
     return app;
 }
@@ -32,3 +31,9 @@ export const globalRegisterIcon = async (app: any) => {
     }
     return app;
 }
+
+// 全局注册所有组件默认配置
+export const globalRegisterConfig = async (app: any) => {
+
+}
+

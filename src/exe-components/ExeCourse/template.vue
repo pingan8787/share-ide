@@ -1,4 +1,7 @@
-<script setup>
+<script lang="ts">
+export default { name: 'ExeCourse' }
+</script>
+<script setup lang="ts">
 import { ref } from 'vue'
 
 defineProps({

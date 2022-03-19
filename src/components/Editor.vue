@@ -1,10 +1,20 @@
-<script setup>
-import { ref, onMounted, reactive } from "vue";
+<script lang="ts">
+export default { name: 'Editor' }
+</script>
+<script setup lang="ts">
+import { ref, onMounted, reactive, watch, computed } from "vue";
+import _ from 'lodash';
 import { getProperty } from "@/utils/global";
+import { getRandomCode } from "@/utils/utils";
 
-let exeSchema = reactive([]);
-let exeEdit = reactive([]);
+let exeSchema = reactive([]); // 物料区的数据
+let exeEdit = reactive([]); // 编辑区的数据 最终导出的数据
+let exeAttrs = ref({}); // 属性对象
+let curComponent = ref({}); 
 let curSchemaCollapse = ref(["1"]);
+
+const hasCurComponent = computed(() => Object.keys(curComponent.value).length > 0);
+const curSchema = computed(() => exeAttrs.value[curComponent.value.component]);
 
 defineProps({
     msg: String,
@@ -12,20 +22,34 @@ defineProps({
 
 onMounted(() => {
     const curSchema = getProperty("$exeSchema");
+    const curAttrs = getProperty("$exeAttrs");
     exeSchema.push(...curSchema);
-    console.log('[curSchema]', curSchema)
+    exeAttrs.value = curAttrs;
+    console.log('[exeSchema]', exeSchema)
+    console.log('[exeAttrs]', exeAttrs.value)
+});
+
+watch(curComponent, (newVal, oldVal) => {
+    console.log("[curComponent 变化]", { oldVal, newVal });
 });
 
 const changeSchemaCollapse = () => { };
 
 const cloneSchema = (data) => {
-    console.log('[cloneSchema]', data)
-    exeEdit.push(data);
+    exeEdit.push({
+        ..._.cloneDeep(data),
+        id: getRandomCode(8)
+    });
 }
 
 const changeSchema = (evt) => {
     console.log('[changeSchema]', evt)
 }
+
+const updateCurComponent = data => {
+    curComponent.value = data;
+}
+
 </script>
 
 <template>
@@ -46,6 +70,7 @@ const changeSchema = (evt) => {
                         <template #item="{element}">
                             <div class="model-item">
                                 <div class="icon">
+                                    <!-- 图标组件 -->
                                     <component :is="element.icon" />
                                 </div>
                                 <div class="title">{{ element.name }}</div>
@@ -59,26 +84,19 @@ const changeSchema = (evt) => {
         <div class="EditorCtrl">
             <div class="panel">
                 <div class="panel-container">
-                    <draggable 
-                        :list="exeEdit" 
-                        :group="{ name: 'exeSchema', pull: 'clone', put: false }"
-                        animation="300"
-                        item-key="component"
-                    >
-                        <template #item="{element}">
-                            <div class="model-item">
-                                <div class="icon">
-                                    <component :is="element.icon" />
-                                </div>
-                                <div class="title">{{ element.name }}</div>
-                            </div>
-                        </template>
-                    </draggable>
+                    <!-- <EditorNestWidget v-model:list="exeEdit" v-model="curComponent"></EditorNestWidget> -->
+                    <EditorNestWidget v-model:list="exeEdit" @update-cur-component="updateCurComponent"></EditorNestWidget>
                 </div>
             </div>
         </div>
-        <div class="EditorConfig">
+        <div class="EditorConfig" v-if="hasCurComponent">
             <div class="editor-title">配置区</div>
+            <ExeSchemaTemplate :schema="curSchema" v-model="curComponent"></ExeSchemaTemplate>
+            <hr>
+            <div>
+                <b>当前组件数据：</b>
+                <div>{{curComponent}}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -99,7 +117,6 @@ const changeSchema = (evt) => {
         height: calc(100vh - 62px);
         padding: 10px 20px;
         background: #fff;
-
         .model-item {
             display: inline-flex;
             flex-direction: column;
@@ -109,13 +126,11 @@ const changeSchema = (evt) => {
             font-size: 12px;
             color: #666;
             cursor: pointer;
-
             .icon {
                 margin-bottom: 10px;
                 width: 30px;
                 height: 30px;
             }
-
             &:hover {
                 color: #fff !important;
                 background: var(--el-color-primary);
@@ -134,7 +149,6 @@ const changeSchema = (evt) => {
         .panel {
             width: 100%;
             max-width: 900px;
-
             .panel-container {
                 width: 375px;
                 min-height: 667px;

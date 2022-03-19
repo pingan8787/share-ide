@@ -2,10 +2,20 @@
     "name": "文章卡片",
     "icon": "document",
     "attrs": {
+        "title": {
+            "label": "文章标题",
+            "type": "string",
+            "value": "这是一段文本"
+        },
+        "desc": {
+            "label": "文章简介",
+            "type": "string",
+            "value": "这是一段简介文本这是一段简介文本这是一段简介文本这是一段简介文本这是一段简介文本这是一段简介文本"
+        },
         "cover": {
             "label": "封面图片",
             "type": "image",
-            "value": "https://www.qq.com"
+            "value": "http://110.42.184.128:8090/img/1638499959273.jpg"
         }
     }
 }
