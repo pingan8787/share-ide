@@ -1,5 +1,4 @@
-
-import * as ElIcons from '@element-plus/icons'
+import * as ElIcons from '@element-plus/icons';
 
 const Components = import.meta.glob('../components/**/*.vue');
 const ExeComponents = import.meta.glob('../exe-components/**/*.vue');
@@ -41,7 +40,6 @@ export const globalRegisterConfig = async (app: any) => {
         defaultValue[name] = { ...(curValue.default || curValue) }
     }
     app.config.globalProperties.$exeDefaultValue = defaultValue;
-    console.log('[组件默认配置]', defaultValue)
     return app;
 }
 

@@ -12,10 +12,6 @@ let props = defineProps<{
     curComponent?: any;
 }>();
 
-watch(props.modelValue, (newVal, oldVal) => {
-    console.log("[编辑区变化]", { oldVal, newVal });
-});
-
 const moveComponents = () => {
     curComponentIndex.value = undefined;
 }
