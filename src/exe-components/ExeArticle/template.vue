@@ -11,13 +11,9 @@ let props = defineProps<{
     styles?: any;
 }>();
 
-onMounted(() => {
-    console.log('[article]', props)
-})
-
 const getImgStyle = () => {
     return {
-        border: '4px solid ' + props.styles.imgBorder,
+        border: '2px solid ' + props.styles.imgBorder,
         width: props.styles.imgWidth + "px",
         height: props.styles.imgHeight + "px",
         borderRadius: props.styles.imgRadius + "px",

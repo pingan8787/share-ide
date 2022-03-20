@@ -13,8 +13,9 @@ const schemaStoreObj = schemaStore();
 let exeSchema = reactive([]); // 物料区的数据
 let exeEdit = reactive([]); // 编辑区的数据 最终导出的数据
 let exeAttrs = ref({}); // 属性对象
-let curComponent = ref({}); 
+let curComponent = ref({});
 let curSchemaCollapse = ref(["1"]);
+let showConfigModel = ref(false);
 
 const hasCurComponent = computed(() => Object.keys(curComponent.value).length > 0);
 const curSchema = computed(() => exeAttrs.value[curComponent.value.component]);
@@ -34,39 +35,56 @@ watch(exeEdit, (newVal, oldVal) => {
     schemaStoreObj.editData = newVal;
 });
 
-const changeSchemaCollapse = () => { };
-
 const cloneSchema = (data) => {
-    exeEdit.push({
+    const value = {
         ..._.cloneDeep(data),
         id: getRandomCode(8)
-    });
+    };
+    exeEdit.push(value);
+    return value;
 }
 
 const updateCurComponent = data => {
+    closeConfigModel(true);
     curComponent.value = data;
+
 }
+watch(curComponent, (newVal, oldVal) => {
+    console.log('[curComponent.value]', newVal)
+});
+
+const closeConfigModel = (value) => {
+    showConfigModel.value = value;
+};
 
 </script>
 
 <template>
     <div class="EditorContainer">
         <div class="EditorSchema">
-            <div class="editor-title">物料区</div>
-            <el-collapse v-model="curSchemaCollapse" @change="changeSchemaCollapse">
-                <el-collapse-item title="默认物料" name="1">
-                    <draggable 
-                        :list="exeSchema" 
+            <div class="editor-title">
+                <div class="left">物料区</div>
+                <div class="right">
+                    <el-icon>
+                        <arrow-left />
+                    </el-icon>
+                </div>
+            </div>
+            <el-collapse v-model="curSchemaCollapse">
+                <el-collapse-item title="通用物料" name="1">
+                    <draggable
+                        :list="exeSchema"
                         :group="{ name: 'exeSchema', pull: 'clone', put: false }"
                         :clone="cloneSchema"
                         :sort="false"
                         animation="300"
+                        ghostClass="ghost"
+                        chosenClass="chosen"
                         item-key="component"
                     >
-                        <template #item="{element}">
+                        <template #item="{ element }">
                             <div class="model-item">
                                 <div class="icon">
-                                    <!-- 图标组件 -->
                                     <component :is="element.icon" />
                                 </div>
                                 <div class="title">{{ element.name }}</div>
@@ -74,7 +92,8 @@ const updateCurComponent = data => {
                         </template>
                     </draggable>
                 </el-collapse-item>
-                <el-collapse-item title="更多物料" name="2">开发中...</el-collapse-item>
+                <el-collapse-item title="EXE 物料" name="2">开发中...</el-collapse-item>
+                <el-collapse-item title="更多物料" name="3">开发中...</el-collapse-item>
             </el-collapse>
         </div>
         <div class="EditorCtrl">
@@ -84,15 +103,23 @@ const updateCurComponent = data => {
                 </div>
             </div>
         </div>
-        <div class="EditorConfig" v-if="hasCurComponent">
-            <div class="editor-title">配置区</div>
+        <div class="EditorConfig" v-if="hasCurComponent && showConfigModel">
+            <div class="editor-title">
+                <div class="left">配置区</div>
+                <div class="right" @click="() => closeConfigModel(false)">
+                    <el-icon>
+                        <close />
+                    </el-icon>
+                </div>
+            </div>
+            <div class="config-id">当前物料ID：{{ curComponent.id }}</div>
             <ExeSchemaTemplate :schema="curSchema" v-model="curComponent"></ExeSchemaTemplate>
-            <hr>
+            <hr />
             <div>
                 <b>当前组件模型：</b>
-                <div>{{curSchema}}</div>
+                <div>{{ curSchema }}</div>
                 <b>当前组件数据：</b>
-                <div>{{curComponent}}</div>
+                <div>{{ curComponent }}</div>
             </div>
         </div>
     </div>
@@ -108,6 +135,14 @@ const updateCurComponent = data => {
         border-left: 4px solid var(--el-color-primary);
         border-radius: 4px;
         margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .right {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
     }
     .EditorSchema {
         width: 220px;
@@ -162,6 +197,31 @@ const updateCurComponent = data => {
         animation-duration: 0.2s;
         padding: 10px;
         background: #fff;
+        .config-id {
+            padding: 10px;
+            color: #969799;
+            font-size: 14px;
+        }
     }
+}
+
+// 拖动时在画布上的样式
+.ghost {
+    opacity: 0.4;
+}
+// 选中拖动的样式
+.chosen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    box-sizing: border-box;
+    .title {
+        font-size: 12px;
+    }
+    .icon {
+        width: 26px;
+    }
+    background-color: #969799;
 }
 </style>

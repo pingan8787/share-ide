@@ -1,11 +1,47 @@
 {
     "name": "课程卡片",
-    "icon": "data-analysis",
+    "icon": "document",
     "attrs": {
+        "title": {
+            "label": "课程标题",
+            "type": "string",
+            "value": "这是一段文本"
+        },
+        "desc": {
+            "label": "课程简介",
+            "type": "string",
+            "value": "这是一段简介文本这是一段简介文本这是一段简介文本这是一段简介文本这是一段简介文本这是一段简介文本"
+        },
         "cover": {
             "label": "封面图片",
             "type": "image",
-            "value": "https://www.qq.com"
+            "value": "https://element-plus.gitee.io/images/vform-banner.jpg"
+        },
+        "styles": {
+            "label": "封面设置",
+            "type": "object",
+            "child": {
+                "imgWidth": {
+                    "label": "图片宽度",
+                    "type": "number",
+                    "value": 160
+                },
+                "imgHeight": {
+                    "label": "图片高度",
+                    "type": "number",
+                    "value": 60
+                },
+                "imgBorder": {
+                    "label": "图片边框",
+                    "type": "color",
+                    "value": "#eee"
+                },
+                "imgRadius": {
+                    "label": "图片圆角",
+                    "type": "number",
+                    "value": 6
+                }
+            }
         }
     }
 }

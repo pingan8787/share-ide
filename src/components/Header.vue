@@ -22,8 +22,8 @@ const toPreview = () => {
   <div class="HeaderContainer">
       <div class="text"><img class="logo" :src="LOGO" /> 动态分享可视化搭建平台</div>
       <div class="buttons">
-          <el-button @click="toSchema">Schema 生成器</el-button>
-          <el-button @click="toPreview">预览页面</el-button>
+          <el-button @click="toSchema"><el-icon class="header-icon"><monitor /></el-icon>Schema 生成器</el-button>
+          <el-button @click="toPreview"><el-icon class="header-icon"><iphone /></el-icon>预览页面</el-button>
       </div>
   </div>
 </template>
@@ -51,6 +51,9 @@ const toPreview = () => {
         align-items: center;
     }
     .buttons {
+        .header-icon {
+            margin-right: 6px;
+        }
     }
 }
 </style>
