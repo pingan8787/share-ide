@@ -1,5 +1,5 @@
 <script lang="ts">
-export default { name: 'SchemaString' }
+export default { name: 'SchemaColor' }
 </script>
 <script setup lang="ts">
 import { ref, defineProps, onMounted, watch } from "vue";
@@ -21,18 +21,17 @@ watch(inputData, (newVal, oldVal) => {
     emit('update:modelValue', newVal)
 })
 
-
 </script>
 
 <template>
-    <div class="SchemaString">
+    <div class="SchemaColor">
         <config-item :label="props.schema.label">
-            <el-input v-model="inputData" :placeholder="props.schema.value" />
+            <el-color-picker v-model="inputData" />
         </config-item>
     </div>
 </template>
 
 <style lang="scss" scoped>
-.SchemaString {
+.SchemaColor {
 }
 </style>

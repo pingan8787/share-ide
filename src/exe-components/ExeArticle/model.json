@@ -16,6 +16,32 @@
             "label": "封面图片",
             "type": "image",
             "value": "http://110.42.184.128:8090/img/1638499959273.jpg"
+        },
+        "styles": {
+            "label": "封面设置",
+            "type": "object",
+            "child": {
+                "imgWidth": {
+                    "label": "图片宽度",
+                    "type": "number",
+                    "value": 100
+                },
+                "imgHeight": {
+                    "label": "图片高度",
+                    "type": "number",
+                    "value": 60
+                },
+                "imgBorder": {
+                    "label": "图片边框",
+                    "type": "color",
+                    "value": "#eee"
+                },
+                "imgRadius": {
+                    "label": "图片圆角",
+                    "type": "number",
+                    "value": 6
+                }
+            }
         }
     }
 }

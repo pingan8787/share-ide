@@ -1,6 +1,6 @@
 export default {
-    label: '图片框',
-    type: 'image',
+    label: '颜色选择器',
+    type: 'string',
     property: '',
     value: '',
     options: {

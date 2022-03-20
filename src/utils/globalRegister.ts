@@ -34,6 +34,14 @@ export const globalRegisterIcon = async (app: any) => {
 
 // 全局注册所有组件默认配置
 export const globalRegisterConfig = async (app: any) => {
-
+    let defaultValue: any = {};
+    for (const path in ExeSchemaConfig) {
+        const curValue = await ExeSchemaConfig[path]();
+        const [, , , name] = path.split('/');
+        defaultValue[name] = { ...(curValue.default || curValue) }
+    }
+    app.config.globalProperties.$exeDefaultValue = defaultValue;
+    console.log('[组件默认配置]', defaultValue)
+    return app;
 }
 

@@ -6,6 +6,9 @@ import { ref, onMounted, reactive, watch, computed } from "vue";
 import _ from 'lodash';
 import { getProperty } from "@/utils/global";
 import { getRandomCode } from "@/utils/utils";
+import schemaStore from '@/store/schema';
+
+const schemaStoreObj = schemaStore();
 
 let exeSchema = reactive([]); // 物料区的数据
 let exeEdit = reactive([]); // 编辑区的数据 最终导出的数据
@@ -16,21 +19,19 @@ let curSchemaCollapse = ref(["1"]);
 const hasCurComponent = computed(() => Object.keys(curComponent.value).length > 0);
 const curSchema = computed(() => exeAttrs.value[curComponent.value.component]);
 
-defineProps({
-    msg: String,
-});
-
 onMounted(() => {
     const curSchema = getProperty("$exeSchema");
     const curAttrs = getProperty("$exeAttrs");
     exeSchema.push(...curSchema);
     exeAttrs.value = curAttrs;
-    console.log('[exeSchema]', exeSchema)
-    console.log('[exeAttrs]', exeAttrs.value)
 });
 
 watch(curComponent, (newVal, oldVal) => {
-    console.log("[curComponent 变化]", { oldVal, newVal });
+    curComponent.value = newVal;
+});
+
+watch(exeEdit, (newVal, oldVal) => {
+    schemaStoreObj.editData = newVal;
 });
 
 const changeSchemaCollapse = () => { };
@@ -40,10 +41,6 @@ const cloneSchema = (data) => {
         ..._.cloneDeep(data),
         id: getRandomCode(8)
     });
-}
-
-const changeSchema = (evt) => {
-    console.log('[changeSchema]', evt)
 }
 
 const updateCurComponent = data => {
@@ -63,7 +60,6 @@ const updateCurComponent = data => {
                         :group="{ name: 'exeSchema', pull: 'clone', put: false }"
                         :clone="cloneSchema"
                         :sort="false"
-                        @change="changeSchema"
                         animation="300"
                         item-key="component"
                     >
@@ -84,8 +80,7 @@ const updateCurComponent = data => {
         <div class="EditorCtrl">
             <div class="panel">
                 <div class="panel-container">
-                    <!-- <EditorNestWidget v-model:list="exeEdit" v-model="curComponent"></EditorNestWidget> -->
-                    <EditorNestWidget v-model:list="exeEdit" @update-cur-component="updateCurComponent"></EditorNestWidget>
+                    <EditorNestWidget v-model="exeEdit" @update-cur-component="updateCurComponent"></EditorNestWidget>
                 </div>
             </div>
         </div>
@@ -94,6 +89,8 @@ const updateCurComponent = data => {
             <ExeSchemaTemplate :schema="curSchema" v-model="curComponent"></ExeSchemaTemplate>
             <hr>
             <div>
+                <b>当前组件模型：</b>
+                <div>{{curSchema}}</div>
                 <b>当前组件数据：</b>
                 <div>{{curComponent}}</div>
             </div>

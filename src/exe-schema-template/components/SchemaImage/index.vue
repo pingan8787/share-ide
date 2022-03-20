@@ -17,7 +17,16 @@ onMounted(() => {
 <template>
     <div class="SchemaImage">
         <config-item :label="props.schema.label">
-            <img class="image" :src="props.schema.value" alt="">
+            <el-upload
+                class="avatar-uploader"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :show-file-list="false"
+            >
+                <img v-if="props.schema.value" :src="props.schema.value" class="avatar" />
+                <el-icon v-else class="avatar-uploader-icon">
+                    <Plus />
+                </el-icon>
+            </el-upload>
         </config-item>
     </div>
 </template>
@@ -28,5 +37,28 @@ onMounted(() => {
         max-width: 120px;
         max-height: 120px;
     }
+}
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
+}
+.avatar-uploader .el-upload:hover {
+    border-color: var(--el-color-primary);
+}
+.el-icon.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    text-align: center;
+}
+.avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
 }
 </style>

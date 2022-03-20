@@ -8,22 +8,32 @@ let props = defineProps<{
     title?: any;
     desc?: any;
     cover?: any;
+    styles?: any;
 }>();
 
 onMounted(() => {
     console.log('[article]', props)
 })
+
+const getImgStyle = () => {
+    return {
+        border: '4px solid ' + props.styles.imgBorder,
+        width: props.styles.imgWidth + "px",
+        height: props.styles.imgHeight + "px",
+        borderRadius: props.styles.imgRadius + "px",
+    };
+}
 </script>
 
 <template>
     <div class="ExeArticle">
-        <div class="container">
+        <div class="container img-left">
             <div class="img">
-                <img :src="props.cover" />
+                <img :src="props.cover" :style="getImgStyle()" />
             </div>
             <div class="info">
-                <div class="title">{{props.title}}</div>
-                <div class="desc">{{props.desc}}</div>
+                <div class="title">{{ props.title }}</div>
+                <div class="desc">{{ props.desc }}</div>
             </div>
         </div>
     </div>

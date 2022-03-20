@@ -7,11 +7,11 @@ import { ref, defineProps, watch, reactive } from "vue";
 const emit = defineEmits(['update-cur-component'])
 
 let props = defineProps<{
-    list?: any;
+    modelValue?: any;
     curComponent?: any;
 }>();
 
-watch(props.list, (newVal, oldVal) => {
+watch(props.modelValue, (newVal, oldVal) => {
     console.log("[编辑区变化]", { oldVal, newVal });
 });
 
@@ -23,7 +23,7 @@ const setCurComponent = data => {
 <template>
     <div class="EditorNestWidget">
         <draggable 
-            :list="list" 
+            :list="props.modelValue" 
             group="exeEditor"
             animation="300"
             item-key="component"

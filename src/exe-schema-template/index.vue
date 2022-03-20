@@ -10,14 +10,19 @@ let props = defineProps<{
 }>();
 
 onMounted(() => {
-    console.log('[ExeSchemaTemplate]', props)
+    console.log('[初始化属性编辑区数据]', props)
 });
 
-watch(props.schema, (newVal, oldVal) => {
-    console.log("[schema 变化]", { oldVal, newVal });
+watch(props.modelValue, (newVal, oldVal) => {
+    console.log("[modelValue 变化]", { oldVal, newVal });
 });
 
 const getComponent = (type: string = '') => 'Schema' + type.slice(0,1).toUpperCase() + type.slice(1);
+const isValidChild = (child: any) => {
+    if(!child) return false;
+    const childList = Object.keys(child);
+    return Array.isArray(childList) && childList.length > 0;
+};
 
 </script>
 
@@ -27,16 +32,16 @@ const getComponent = (type: string = '') => 'Schema' + type.slice(0,1).toUpperCa
             <component
                 :is="getComponent(item.type)"
                 :schema="item"
-                v-model="modelValue[key]"
-            ></component>
-        </div>
-        <!-- <config-item :label="label">
-                :key="index"
-                :schema="item"
                 v-bind="item"
-                v-model="value[key]"
-            字符串组件
-        </config-item> -->
+                v-model="modelValue[key]"
+            >
+                <ExeSchemaTemplate
+                    v-if="isValidChild(item.child)"
+                    :schema="item.child"
+                    v-model="modelValue[key]"
+                ></ExeSchemaTemplate>
+            </component>
+        </div>
     </div>
 </template>
 

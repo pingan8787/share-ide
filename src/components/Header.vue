@@ -4,17 +4,26 @@ export default { name: 'Header' }
 <script setup lang="ts">
 import { ref } from 'vue';
 import router from '@/router';
+import LOGO from '@/assets/logo.png';
+import schemaStore from '@/store/schema';
+
+const schemaStoreObj = schemaStore();
 
 const toSchema = () => {
     router.push('/schema');
+}
+
+const toPreview = () => {
+    console.log('[最终生成的数据]', schemaStoreObj.editData)
 }
 </script>
 
 <template>
   <div class="HeaderContainer">
-      <div class="text">动态分享可视化搭建平台</div>
+      <div class="text"><img class="logo" :src="LOGO" /> 动态分享可视化搭建平台</div>
       <div class="buttons">
           <el-button @click="toSchema">Schema 生成器</el-button>
+          <el-button @click="toPreview">预览页面</el-button>
       </div>
   </div>
 </template>
@@ -32,7 +41,14 @@ const toSchema = () => {
     background: #fff;
     box-shadow: 0 4px 6px 0 rgb(12 31 80 / 4%);
     box-sizing: border-box;
+    .logo {
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+    }
     .text {
+        display: flex;
+        align-items: center;
     }
     .buttons {
     }
