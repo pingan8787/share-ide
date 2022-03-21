@@ -2,7 +2,7 @@
 export default { name: 'SchemaColor' }
 </script>
 <script setup lang="ts">
-import { ref, defineProps, onMounted, watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 let inputData = ref('');
 

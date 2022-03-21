@@ -2,7 +2,7 @@
 export default { name: 'SchemaNumber' }
 </script>
 <script setup lang="ts">
-import { ref, defineProps, onMounted, watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { compileScript } from "vue/compiler-sfc";
 
 let inputData = ref(0);

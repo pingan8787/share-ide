@@ -36,12 +36,13 @@ watch(exeEdit, (newVal, oldVal) => {
 });
 
 const cloneSchema = (data) => {
-    const value = {
+    console.log('[cloneSchema]', data)
+    return {
         ..._.cloneDeep(data),
         id: getRandomCode(8)
     };
-    exeEdit.push(value);
-    return value;
+    // exeEdit.push(value);
+    // return value;
 }
 
 const updateCurComponent = data => {
@@ -49,9 +50,6 @@ const updateCurComponent = data => {
     curComponent.value = data;
 
 }
-watch(curComponent, (newVal, oldVal) => {
-    console.log('[curComponent.value]', newVal)
-});
 
 const closeConfigModel = (value) => {
     showConfigModel.value = value;
@@ -76,8 +74,9 @@ const closeConfigModel = (value) => {
                         :list="exeSchema"
                         :group="{ name: 'exeSchema', pull: 'clone', put: false }"
                         :clone="cloneSchema"
+                        :animation="300"
                         :sort="false"
-                        animation="300"
+                        class="container"
                         ghostClass="ghost"
                         chosenClass="chosen"
                         item-key="component"

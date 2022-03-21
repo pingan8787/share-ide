@@ -3,6 +3,7 @@ export default { name: 'Header' }
 </script>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { ElMessageBox, ElMessage } from 'element-plus';
 import router from '@/router';
 import LOGO from '@/assets/logo.png';
 import schemaStore from '@/store/schema';
@@ -14,7 +15,15 @@ const toSchema = () => {
 }
 
 const toPreview = () => {
-    console.log('[最终生成的数据]', schemaStoreObj.editData)
+  ElMessageBox.alert(schemaStoreObj.editData, '最终预览的数据', {
+    confirmButtonText: 'OK',
+    callback: (action) => {
+      ElMessage({
+        type: 'info',
+        message: '渲染成功~',
+      })
+    },
+  })
 }
 </script>
 

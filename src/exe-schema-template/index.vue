@@ -2,7 +2,7 @@
 export default { name: 'ExeSchemaTemplate' }
 </script>
 <script setup lang="ts">
-import { ref, defineProps, onMounted, reactive, watch } from "vue";
+import { ref, onMounted, reactive, watch } from "vue";
 
 let props = defineProps<{
     schema?: any;

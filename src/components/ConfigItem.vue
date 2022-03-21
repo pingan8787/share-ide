@@ -2,7 +2,7 @@
 export default { name: 'ConfigItem' }
 </script>
 <script setup lang="ts">
-import { ref, defineProps, watch, reactive } from "vue";
+import { ref, watch, reactive } from "vue";
 
 let props = defineProps<{
     label: string;

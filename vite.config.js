@@ -13,6 +13,10 @@ export default defineConfig({
       "@": path.join(__dirname, "./src")
     },
   },
+  // https://github.com/vitejs/vite/issues/6985
+  build: {
+    target: 'esnext'
+  },
   css: {
     preprocessorOptions: {
       scss: {
