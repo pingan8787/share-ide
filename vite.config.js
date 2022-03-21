@@ -15,7 +15,15 @@ export default defineConfig({
   },
   // https://github.com/vitejs/vite/issues/6985
   build: {
-    target: 'esnext'
+    target: 'esnext',
+    rollupOptions: {
+      output: {
+        // https://rollupjs.org/guide/en/#outputmanualchunks
+        // manualChunks: {
+        //   lodash: ['lodash']
+        // }
+      }
+    }
   },
   css: {
     preprocessorOptions: {
