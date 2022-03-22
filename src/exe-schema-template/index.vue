@@ -9,10 +9,6 @@ let props = defineProps<{
     modelValue?: any;
 }>();
 
-onMounted(() => {
-    console.log('[初始化属性编辑区数据]', props)
-});
-
 const getComponent = (type: string = '') => 'Schema' + type.slice(0,1).toUpperCase() + type.slice(1);
 const isValidChild = (child: any) => {
     if(!child) return false;

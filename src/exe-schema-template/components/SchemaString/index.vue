@@ -2,7 +2,7 @@
 export default { name: 'SchemaString' }
 </script>
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, onBeforeUnmount } from "vue";
 
 let inputData = ref('');
 
@@ -21,6 +21,9 @@ watch(inputData, (newVal, oldVal) => {
     emit('update:modelValue', newVal)
 })
 
+onBeforeUnmount(() => {
+    console.log('[onBeforeUnmount]')
+})
 
 </script>
 

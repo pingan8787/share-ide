@@ -8,10 +8,6 @@ let props = defineProps<{
     schema?: any;
 }>();
 
-onMounted(() => {
-    console.log('[SchemaObject]', props.schema)
-});
-
 </script>
 
 <template>

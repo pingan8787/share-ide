@@ -24,6 +24,7 @@ const setCurComponent = (data, index) => {
 watch(props, (newVal, oldVal) => {
     console.log('[拖拽变化]', newVal, oldVal)
 })
+
 </script>
 
 <template>

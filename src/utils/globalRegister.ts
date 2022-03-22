@@ -15,7 +15,6 @@ const register = (app: any, ctx: any) => {
     for (const path in ctx) {
         const mod = ctx[path];
         const compoent = mod.default || mod;
-        console.log('compoent',compoent)
         app.component(compoent.name, compoent)
     }
     return app;

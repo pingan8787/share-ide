@@ -17,12 +17,10 @@ let props = withDefaults(defineProps<{
 })
 
 onMounted(() => {
-    console.log('[SchemaNumber]', props)
     inputData.value = props.modelValue || 0;
 });
 
 watch(inputData, (newVal, oldVal) => {
-    console.log('[inputData]', newVal, oldVal)
     emit('update:modelValue', newVal)
 })
 

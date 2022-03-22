@@ -35,15 +35,10 @@ watch(exeEdit, (newVal, oldVal) => {
     schemaStoreObj.editData = newVal;
 });
 
-const cloneSchema = (data) => {
-    console.log('[cloneSchema]', data)
-    return {
-        ..._.cloneDeep(data),
-        id: getRandomCode(8)
-    };
-    // exeEdit.push(value);
-    // return value;
-}
+const cloneSchema = (data) => ({
+    ..._.cloneDeep(data),
+    id: getRandomCode(8)
+})
 
 const updateCurComponent = data => {
     closeConfigModel(true);
