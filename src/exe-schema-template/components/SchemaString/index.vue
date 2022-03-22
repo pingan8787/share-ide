@@ -21,10 +21,6 @@ watch(inputData, (newVal, oldVal) => {
     emit('update:modelValue', newVal)
 })
 
-onBeforeUnmount(() => {
-    console.log('[onBeforeUnmount]')
-})
-
 </script>
 
 <template>

@@ -2,11 +2,13 @@
 export default { name: 'EditorNestWidget' }
 </script>
 <script setup lang="ts">
-import { ref, watch, reactive } from "vue";
+import { ref, watch, reactive, onMounted } from "vue";
 
-const emit = defineEmits(['update-cur-component'])
+const emit = defineEmits(['update:curComponent', 'update:modelValue'])
 
+let components = ref([]);
 let curComponentIndex = ref(undefined);
+
 let props = defineProps<{
     modelValue?: any;
     curComponent?: any;
@@ -17,12 +19,16 @@ const moveComponents = () => {
 }
 
 const setCurComponent = (data, index) => {
-    emit('update-cur-component', data)
+    emit('update:curComponent', data)
     curComponentIndex.value = index;
 }
 
-watch(props, (newVal, oldVal) => {
-    console.log('[拖拽变化]', newVal, oldVal)
+watch(props.modelValue, (newVal, oldVal) => {
+    components.value = newVal.slice();
+})
+
+watch(components, (newVal, oldVal) => {
+    emit('update:modelValue', newVal);
 })
 
 </script>
@@ -30,10 +36,9 @@ watch(props, (newVal, oldVal) => {
 <template>
     <div class="EditorNestWidget">
         <draggable 
-            :list="props.modelValue"
+            :list="components"
             :sort="true"
             :animation="500"
-            @change="moveComponents"
             class="container"
             group="exeSchema"
             item-key="component"

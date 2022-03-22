@@ -13,25 +13,27 @@ const schemaStoreObj = schemaStore();
 let exeSchema = reactive([]); // 物料区的数据
 let exeEdit = reactive([]); // 编辑区的数据 最终导出的数据
 let exeAttrs = ref({}); // 属性对象
-let curComponent = ref({});
+let curComponent = ref<any>({});
 let curSchemaCollapse = ref(["1"]);
 let showConfigModel = ref(false);
 
 const hasCurComponent = computed(() => Object.keys(curComponent.value).length > 0);
-const curSchema = computed(() => exeAttrs.value[curComponent.value.component]);
+const curSchema = computed(() => {
+    const { component = '' } = curComponent.value;
+    return component ? exeAttrs.value[component] : reactive({});
+});
 
 onMounted(() => {
-    const curSchema = getProperty("$exeSchema");
-    const curAttrs = getProperty("$exeAttrs");
-    exeSchema.push(...curSchema);
-    exeAttrs.value = curAttrs;
+    exeSchema.push(...getProperty("$exeSchema"));
+    exeAttrs.value = getProperty("$exeAttrs");
 });
 
 watch(curComponent, (newVal, oldVal) => {
-    curComponent.value = newVal;
+    showConfigModel.value = true;
 });
 
 watch(exeEdit, (newVal, oldVal) => {
+    console.log('[exeEdit]', newVal)
     schemaStoreObj.editData = newVal;
 });
 
@@ -39,12 +41,6 @@ const cloneSchema = (data) => ({
     ..._.cloneDeep(data),
     id: getRandomCode(8)
 })
-
-const updateCurComponent = data => {
-    closeConfigModel(true);
-    curComponent.value = data;
-
-}
 
 const closeConfigModel = (value) => {
     showConfigModel.value = value;
@@ -93,7 +89,7 @@ const closeConfigModel = (value) => {
         <div class="EditorCtrl">
             <div class="panel">
                 <div class="panel-container">
-                    <EditorNestWidget v-model="exeEdit" @update-cur-component="updateCurComponent"></EditorNestWidget>
+                    <EditorNestWidget v-model="exeEdit" v-model:curComponent="curComponent"></EditorNestWidget>
                 </div>
             </div>
         </div>

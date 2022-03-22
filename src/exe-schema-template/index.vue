@@ -9,6 +9,18 @@ let props = defineProps<{
     modelValue?: any;
 }>();
 
+// watch(props, (newVal, oldVal) => {
+//     console.log('[props]', oldVal, newVal)
+// })
+
+// watch(props.schema, (newVal, oldVal) => {
+//     console.log('[props.schema]', newVal)
+// })
+
+// watch(props.modelValue, (newVal, oldVal) => {
+//     console.log('[props.modelValue]', newVal)
+// })
+
 const getComponent = (type: string = '') => 'Schema' + type.slice(0,1).toUpperCase() + type.slice(1);
 const isValidChild = (child: any) => {
     if(!child) return false;
