@@ -4,8 +4,6 @@ export default { name: 'SchemaColor' }
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 
-let inputData = ref('');
-
 const emit = defineEmits(['update:modelValue'])
 
 let props = defineProps<{
@@ -13,12 +11,8 @@ let props = defineProps<{
     modelValue?: any;
 }>();
 
-onMounted(() => {
-    inputData.value = props.modelValue;
-});
-
-watch(inputData, (newVal, oldVal) => {
-    emit('update:modelValue', newVal)
+watch(props, (newVal, oldVal) => {
+    emit('update:modelValue', newVal.modelValue)
 })
 
 </script>
@@ -26,7 +20,7 @@ watch(inputData, (newVal, oldVal) => {
 <template>
     <div class="SchemaColor">
         <config-item :label="props.schema.label">
-            <el-color-picker v-model="inputData" />
+            <el-color-picker v-model="modelValue" />
         </config-item>
     </div>
 </template>

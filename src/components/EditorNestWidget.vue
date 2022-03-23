@@ -3,15 +3,16 @@ export default { name: 'EditorNestWidget' }
 </script>
 <script setup lang="ts">
 import { ref, watch, reactive, onMounted } from "vue";
+import schemaStore from '@/store/schema';
+const schemaStoreObj = schemaStore();
 
-const emit = defineEmits(['update:curComponent', 'update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
 let components = ref([]);
 let curComponentIndex = ref(undefined);
 
 let props = defineProps<{
     modelValue?: any;
-    curComponent?: any;
 }>();
 
 const moveComponents = () => {
@@ -19,7 +20,7 @@ const moveComponents = () => {
 }
 
 const setCurComponent = (data, index) => {
-    emit('update:curComponent', data)
+    schemaStoreObj.curComponent = data;
     curComponentIndex.value = index;
 }
 

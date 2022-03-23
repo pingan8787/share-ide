@@ -3,9 +3,6 @@ export default { name: 'SchemaNumber' }
 </script>
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
-import { compileScript } from "vue/compiler-sfc";
-
-let inputData = ref(0);
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -16,12 +13,8 @@ let props = withDefaults(defineProps<{
     modelValue: 0,
 })
 
-onMounted(() => {
-    inputData.value = props.modelValue || 0;
-});
-
-watch(inputData, (newVal, oldVal) => {
-    emit('update:modelValue', newVal)
+watch(props, (newVal, oldVal) => {
+    emit('update:modelValue', newVal.modelValue)
 })
 
 </script>
@@ -29,7 +22,7 @@ watch(inputData, (newVal, oldVal) => {
 <template>
     <div class="SchemaNumber">
         <config-item :label="props.schema.label">
-            <el-slider v-model="inputData" :placeholder="props.schema.value" />
+            <el-slider v-model="modelValue" :placeholder="props.schema.value" />
         </config-item>
     </div>
 </template>

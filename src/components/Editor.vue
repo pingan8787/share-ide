@@ -7,7 +7,6 @@ import _ from 'lodash';
 import { getProperty } from "@/utils/global";
 import { getRandomCode } from "@/utils/utils";
 import schemaStore from '@/store/schema';
-
 const schemaStoreObj = schemaStore();
 
 let exeSchema = reactive([]); // 物料区的数据
@@ -17,9 +16,9 @@ let curComponent = ref<any>({});
 let curSchemaCollapse = ref(["1"]);
 let showConfigModel = ref(false);
 
-const hasCurComponent = computed(() => Object.keys(curComponent.value).length > 0);
+const hasCurComponent = computed(() => Object.keys(schemaStoreObj.curComponent).length > 0);
 const curSchema = computed(() => {
-    const { component = '' } = curComponent.value;
+    const { component = '' } = schemaStoreObj.curComponent;
     return component ? exeAttrs.value[component] : reactive({});
 });
 
@@ -28,12 +27,12 @@ onMounted(() => {
     exeAttrs.value = getProperty("$exeAttrs");
 });
 
-watch(curComponent, (newVal, oldVal) => {
+watch(schemaStoreObj.curComponent, (newVal, oldVal) => {
+    schemaStoreObj.curComponent = newVal;
     showConfigModel.value = true;
 });
 
 watch(exeEdit, (newVal, oldVal) => {
-    console.log('[exeEdit]', newVal)
     schemaStoreObj.editData = newVal;
 });
 
@@ -89,11 +88,12 @@ const closeConfigModel = (value) => {
         <div class="EditorCtrl">
             <div class="panel">
                 <div class="panel-container">
-                    <EditorNestWidget v-model="exeEdit" v-model:curComponent="curComponent"></EditorNestWidget>
+                    <EditorNestWidget v-model="exeEdit"></EditorNestWidget>
                 </div>
             </div>
         </div>
-        <div class="EditorConfig" v-if="hasCurComponent && showConfigModel">
+         <!-- v-if="hasCurComponent && showConfigModel" -->
+        <div class="EditorConfig">
             <div class="editor-title">
                 <div class="left">配置区</div>
                 <div class="right" @click="() => closeConfigModel(false)">
@@ -102,14 +102,14 @@ const closeConfigModel = (value) => {
                     </el-icon>
                 </div>
             </div>
-            <div class="config-id">当前物料ID：{{ curComponent.id }}</div>
-            <ExeSchemaTemplate :schema="curSchema" v-model="curComponent"></ExeSchemaTemplate>
+            <div class="config-id">当前物料ID：{{ schemaStoreObj.curComponent.id }}</div>
+            <ExeSchemaTemplate :schema="curSchema" v-model="schemaStoreObj.curComponent"></ExeSchemaTemplate>
             <hr />
             <div>
                 <b>当前组件模型：</b>
                 <div>{{ curSchema }}</div>
                 <b>当前组件数据：</b>
-                <div>{{ curComponent }}</div>
+                <div>{{ schemaStoreObj.curComponent }}</div>
             </div>
         </div>
     </div>

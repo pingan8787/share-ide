@@ -4,7 +4,9 @@ export default defineStore({
     id: 'schemaStore',
     state() {
         return {
-            components: [123]
+            components: [123],
+            editData: [],
+            curComponent: {},
         }
     }
 })
