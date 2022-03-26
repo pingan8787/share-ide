@@ -4,10 +4,12 @@ export default { name: 'SchemaString' }
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount, computed } from "vue";
 import type { AttrsValueItem } from '@/type/component';
+import DefaultOptions from './options';
 
 const emit = defineEmits(['update:modelValue']);
 
 let curValue = ref('');
+let curOptions = ref(DefaultOptions.options);
 
 let props = withDefaults(defineProps<{
     schema: AttrsValueItem;
@@ -16,13 +18,16 @@ let props = withDefaults(defineProps<{
     modelValue: '',
 })
 
-watch(props, (newVal, oldVal) => {
+const update = () => {
     curValue.value = props.modelValue;
-})
+    if(props.schema.options){
+        curOptions.value = {...curOptions.value, ...props.schema.options}
+    }
+}
 
-onMounted(() => {
-    curValue.value = props.modelValue;
-})
+watch(props, update);
+
+onMounted(update);
 
 watch(curValue, (newVal, oldVal) => {
     emit('update:modelValue', newVal)
@@ -33,7 +38,7 @@ watch(curValue, (newVal, oldVal) => {
 <template>
     <div class="SchemaString">
         <config-item :label="props.schema.label">
-            <el-input v-model="curValue" :placeholder="props.schema.value" />
+            <el-input v-model="curValue" v-bind="curOptions" />
         </config-item>
     </div>
 </template>

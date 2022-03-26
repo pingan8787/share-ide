@@ -5,17 +5,27 @@
         "title": {
             "label": "课程标题",
             "type": "string",
-            "value": "这是一段课程标题"
+            "value": "这是一段课程标题",
+            "options": {
+                "clearable": true
+            }
         },
         "desc": {
             "label": "课程简介",
             "type": "string",
-            "value": "这是一段简课程简介课程简介课程简介课程简介课程简介课程简介课程简介"
+            "value": "这是一段简课程简介课程简介课程简介课程简介课程简介课程简介课程简介",
+            "options": {
+                "clearable": true
+            }
         },
         "cover": {
             "label": "封面图片",
             "type": "image",
-            "value": "https://element-plus.gitee.io/images/vform-banner.jpg"
+            "value": "https://element-plus.gitee.io/images/vform-banner.jpg",
+            "options": {
+                "max": 375,
+                "min": 32
+            }
         },
         "styles": {
             "label": "封面设置",
@@ -24,12 +34,20 @@
                 "imgWidth": {
                     "label": "图片宽度",
                     "type": "number",
-                    "value": 160
+                    "value": 160,
+                    "options": {
+                        "max": 375,
+                        "min": 32
+                    }
                 },
                 "imgHeight": {
                     "label": "图片高度",
                     "type": "number",
-                    "value": 60
+                    "value": 60,
+                    "options": {
+                        "max": 120,
+                        "min": 20
+                    }
                 },
                 "imgBorder": {
                     "label": "图片边框",

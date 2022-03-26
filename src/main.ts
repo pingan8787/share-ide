@@ -17,7 +17,7 @@ app.use(ElementPlus);
 
 app.component("draggable", draggable);
 app = globalRegisterComponent(app);
-app = globalRegisterConfig(app);
+// app = globalRegisterConfig(app); // 暂时不需要，每个类型组件直接引用配置文件即可
 app = globalRegisterIcon(app);
 app = registerSchema(app);
 

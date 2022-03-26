@@ -15,7 +15,7 @@
         "cover": {
             "label": "封面图片",
             "type": "image",
-            "value": "http://110.42.184.128:8090/img/1638499959273.jpg"
+            "value": "https://element-plus.gitee.io/images/element-plus-logo.svg"
         },
         "styles": {
             "label": "封面设置",

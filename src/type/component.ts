@@ -63,4 +63,5 @@ export type AttrsValueItem = {
     type: string;
     value: any;
     child?: any;
+    options?: any;
 }

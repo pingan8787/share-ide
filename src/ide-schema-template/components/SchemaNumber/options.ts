@@ -5,5 +5,7 @@ export default {
     value: '',
     options: {
         placeholder: "请输入",
+        max: 100,
+        min: 0
     }
 }

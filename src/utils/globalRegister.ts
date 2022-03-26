@@ -9,7 +9,7 @@ import * as ElIcons from '@element-plus/icons';
 const Components = import.meta.globEager('../components/**/*.vue');
 const IDEComponents = import.meta.globEager('../ide-components/**/*.vue');
 const IDESchemaTemp = import.meta.globEager('../ide-schema-template/**/*.vue');
-const IDESchemaConfig = import.meta.globEager('../ide-schema-template/**/config.js');
+const IDESchemaOptions = import.meta.globEager('../ide-schema-template/**/options.js');
 
 const register = (app: any, ctx: any) => {
     for (const path in ctx) {
@@ -40,8 +40,8 @@ export const globalRegisterIcon = (app: any) => {
 // 全局注册所有组件默认配置
 export const globalRegisterConfig = (app: any) => {
     let defaultValue: any = {};
-    for (const path in IDESchemaConfig) {
-        const curValue = IDESchemaConfig[path];
+    for (const path in IDESchemaOptions) {
+        const curValue = IDESchemaOptions[path];
         const [, , , name] = path.split('/');
         defaultValue[name] = { ...(curValue.default || curValue) }
     }

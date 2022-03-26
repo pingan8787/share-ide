@@ -206,6 +206,7 @@ const updateCurComponent = (data: ComponentSchema) => {
                     font-size: 14px;
                     background-color: #fff;
                     border: 1px solid #dcdee0;
+                    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
                     &.active {
                         color: $primary-color;
                         border-color: $primary-color;
