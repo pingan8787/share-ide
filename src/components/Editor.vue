@@ -2,23 +2,23 @@
 export default { name: 'Editor' }
 </script>
 <script setup lang="ts">
-import { ref, onMounted, reactive, watch, computed } from "vue";
+import { ref, onMounted, reactive, watch, computed, provide } from "vue";
 import _ from 'lodash';
 import { getProperty } from "@/utils/global";
 import { getRandomCode } from "@/utils/utils";
-import schemaStore from '@/store/schema';
-const schemaStoreObj = schemaStore();
+import componentStore from '@/store/component';
+const componentStoreObj = componentStore();
 
 let exeSchema = reactive([]); // 物料区的数据
-let exeEdit = reactive([]); // 编辑区的数据 最终导出的数据
+let exeEdit = ref([]); // 编辑区的数据 最终导出的数据
 let exeAttrs = ref({}); // 属性对象
 let curComponent = ref<any>({});
 let curSchemaCollapse = ref(["1"]);
 let showConfigModel = ref(false);
 
-const hasCurComponent = computed(() => Object.keys(schemaStoreObj.curComponent).length > 0);
+const hasCurComponent = computed(() => Object.keys(componentStoreObj.curComponent).length > 0);
 const curSchema = computed(() => {
-    const { component = '' } = schemaStoreObj.curComponent;
+    const { component = '' } = curComponent.value;
     return component ? exeAttrs.value[component] : reactive({});
 });
 
@@ -27,13 +27,13 @@ onMounted(() => {
     exeAttrs.value = getProperty("$exeAttrs");
 });
 
-watch(schemaStoreObj.curComponent, (newVal, oldVal) => {
-    schemaStoreObj.curComponent = newVal;
-    showConfigModel.value = true;
-});
+watch(curComponent, (newVal, oldVal) => {
+    componentStoreObj.curComponent = newVal;
+    componentStoreObj.showCurComponent = !componentStoreObj.showCurComponent;
+})
 
 watch(exeEdit, (newVal, oldVal) => {
-    schemaStoreObj.editData = newVal;
+    componentStoreObj.editData = newVal;
 });
 
 const cloneSchema = (data) => ({
@@ -42,8 +42,12 @@ const cloneSchema = (data) => ({
 })
 
 const closeConfigModel = (value) => {
-    showConfigModel.value = value;
+    componentStore.showCurComponent = false;
 };
+
+const updateCurComponent = (value) => {
+    curComponent.value = value;
+}
 
 </script>
 
@@ -88,7 +92,7 @@ const closeConfigModel = (value) => {
         <div class="EditorCtrl">
             <div class="panel">
                 <div class="panel-container">
-                    <EditorNestWidget v-model="exeEdit"></EditorNestWidget>
+                    <EditorNestWidget v-model="exeEdit" @updateCurComponent="updateCurComponent"></EditorNestWidget>
                 </div>
             </div>
         </div>
@@ -102,14 +106,14 @@ const closeConfigModel = (value) => {
                     </el-icon>
                 </div>
             </div>
-            <div class="config-id">当前物料ID：{{ schemaStoreObj.curComponent.id }}</div>
-            <ExeSchemaTemplate :schema="curSchema" v-model="schemaStoreObj.curComponent"></ExeSchemaTemplate>
+            <div class="config-id">当前物料ID：{{ curComponent.id }}</div>
+            <ExeSchemaTemplate :schema="curSchema" v-model="curComponent"></ExeSchemaTemplate>
             <hr />
             <div>
                 <b>当前组件模型：</b>
                 <div>{{ curSchema }}</div>
                 <b>当前组件数据：</b>
-                <div>{{ schemaStoreObj.curComponent }}</div>
+                <div>{{ curComponent }}</div>
             </div>
         </div>
     </div>

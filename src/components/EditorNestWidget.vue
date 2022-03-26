@@ -3,32 +3,26 @@ export default { name: 'EditorNestWidget' }
 </script>
 <script setup lang="ts">
 import { ref, watch, reactive, onMounted } from "vue";
-import schemaStore from '@/store/schema';
-const schemaStoreObj = schemaStore();
+import componentStore from '@/store/component';
+const componentStoreObj = componentStore();
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'updateCurComponent'])
 
 let components = ref([]);
-let curComponentIndex = ref(undefined);
 
 let props = defineProps<{
     modelValue?: any;
 }>();
 
-const moveComponents = () => {
-    curComponentIndex.value = undefined;
-}
-
 const setCurComponent = (data, index) => {
-    schemaStoreObj.curComponent = data;
-    curComponentIndex.value = index;
+    emit('updateCurComponent', data)
 }
 
 watch(props.modelValue, (newVal, oldVal) => {
     components.value = newVal.slice();
 })
 
-watch(components, (newVal, oldVal) => {
+watch(components.value, (newVal, oldVal) => {
     emit('update:modelValue', newVal);
 })
 
@@ -50,7 +44,7 @@ watch(components, (newVal, oldVal) => {
             <template #item="{element, index}">
                 <div
                     class="model-item"
-                    :class="index === curComponentIndex && 'active'"
+                    :class="componentStoreObj.isCurComponent(element.id) && 'active'"
                     @click="() => setCurComponent(element, index)"
                 >
                     <component :is="element.component" v-bind="element" />

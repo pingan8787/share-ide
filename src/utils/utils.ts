@@ -10,3 +10,5 @@ export const getRandomCode = (num: number = 8) => {
 }
 
 export const px2rem = (data: number) => data / 37.5 + 'rem';
+
+export const noEmptyObject = (obj: any) => obj && Object.keys(obj) && Object.keys(obj).length > 0;

@@ -6,16 +6,16 @@ import { ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import router from '@/router';
 import LOGO from '@/assets/logo.png';
-import schemaStore from '@/store/schema';
+import componentStore from '@/store/component';
 
-const schemaStoreObj = schemaStore();
+const componentStoreObj = componentStore();
 
 const toSchema = () => {
     router.push('/schema');
 }
 
 const toPreview = () => {
-  ElMessageBox.alert(schemaStoreObj.editData, '最终预览的数据', {
+  ElMessageBox.alert(componentStoreObj.editData, '最终预览的数据', {
     confirmButtonText: 'OK',
     callback: (action) => {
       ElMessage({
