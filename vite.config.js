@@ -26,11 +26,25 @@ export default defineConfig({
     }
   },
   css: {
+    postcss: {
+      plugins: [
+          {
+            postcssPlugin: 'internal:charset-removal',
+            AtRule: {
+              charset: (atRule) => {
+                if (atRule.name === 'charset') {
+                  atRule.remove();
+                }
+              }
+            }
+          }
+      ],
+    },
     preprocessorOptions: {
       scss: {
+        charset: false,
         additionalData: '@import "./src/style/index.scss";' // 添加公共样式
-      }
-
+      },
     }
   },
   plugins: [
