@@ -3,14 +3,15 @@ export default { name: 'SchemaString' }
 </script>
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount, computed } from "vue";
+import type { AttrsValueItem } from '@/type/component';
 
 const emit = defineEmits(['update:modelValue']);
 
 let curValue = ref('');
 
 let props = withDefaults(defineProps<{
-    schema?: any;
-    modelValue?: any;
+    schema: AttrsValueItem;
+    modelValue: string;
 }>(), {
     modelValue: '',
 })

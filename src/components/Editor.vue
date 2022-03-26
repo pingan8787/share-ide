@@ -4,16 +4,21 @@ export default { name: 'Editor' }
 <script setup lang="ts">
 import { ref, onMounted, reactive, watch, computed, provide } from "vue";
 import _ from 'lodash';
+import type { ComponentSchemaList, ComponentAttrs, ComponentSchema } from '@/type/component';
 import { getProperty } from "@/utils/global";
 import { getRandomCode } from "@/utils/utils";
 import componentStore from '@/store/component';
 const componentStoreObj = componentStore();
 
-let globalSchema = reactive([]); // 物料区的数据
+let globalSchema = reactive<ComponentSchemaList>([]); // 物料区的数据
 let editData = ref([]); // 编辑区的数据 最终导出的数据
-let globalAttrs = ref<{ [key: string]: any }>({}); // 属性对象
-let curComponent = ref<any>({});
-let curSchemaCollapse = ref(["1"]);
+let globalAttrs = ref<ComponentAttrs>({}); // 属性对象
+let curComponent = ref<ComponentSchema>({
+    component: '',
+    icon: '',
+    name: '',
+});
+let curSchemaCollapse = ref<string[]>(["1"]);
 
 const hasCurComponent = computed(() => Object.keys(componentStoreObj.curComponent).length > 0);
 const curSchema = computed(() => {
@@ -24,11 +29,10 @@ const curSchema = computed(() => {
 onMounted(() => {
     globalSchema.push(...getProperty("$GlobalSchema"));
     globalAttrs.value = getProperty("$GlobalAttrs");
-    console.log('[globalSchema]', globalSchema)
-    console.log('[globalAttrs]', globalAttrs.value)
 });
 
 watch(curComponent, (newVal, oldVal) => {
+    console.log('[curComponent]',curComponent)
     componentStoreObj.curComponent = newVal;
     if (!componentStoreObj.showCurComponent) {
         componentStoreObj.showCurComponent = true;
@@ -39,7 +43,7 @@ watch(editData, (newVal, oldVal) => {
     componentStoreObj.editData = newVal;
 });
 
-const cloneSchema = (data) => ({
+const cloneSchema = (data: ComponentSchema) => ({
     ..._.cloneDeep(data),
     id: getRandomCode(8)
 })
@@ -48,8 +52,8 @@ const closeConfigModel = () => {
     componentStoreObj.showCurComponent = false;
 };
 
-const updateCurComponent = (value) => {
-    curComponent.value = value;
+const updateCurComponent = (data: ComponentSchema) => {
+    curComponent.value = data;
 }
 
 </script>
@@ -106,7 +110,7 @@ const updateCurComponent = (value) => {
         <div class="EditorConfig" v-if="componentStoreObj.showCurComponent">
             <div class="editor-title">
                 <div class="left">配置区</div>
-                <div class="right" @click="() => closeConfigModel(false)">
+                <div class="right" @click="closeConfigModel">
                     <el-icon>
                         <close />
                     </el-icon>

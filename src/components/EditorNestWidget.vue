@@ -3,18 +3,19 @@ export default { name: 'EditorNestWidget' }
 </script>
 <script setup lang="ts">
 import { ref, watch, reactive, onMounted } from "vue";
+import type { ComponentSchemaList, ComponentSchema } from '@/type/component';
 import componentStore from '@/store/component';
 const componentStoreObj = componentStore();
 
 const emit = defineEmits(['update:modelValue', 'updateCurComponent'])
 
-let components = ref([]);
+let components = ref<ComponentSchemaList>([]);
 
 let props = defineProps<{
-    modelValue?: any;
+    modelValue: ComponentSchemaList;
 }>();
 
-const setCurComponent = (data, index) => {
+const setCurComponent = (data: ComponentSchema) => {
     emit('updateCurComponent', data)
 }
 
@@ -26,7 +27,7 @@ watch(components.value, (newVal, oldVal) => {
     emit('update:modelValue', newVal);
 })
 
-const deleteComponent = (data, index: number) => {
+const deleteComponent = (data: ComponentSchema, index: number) => {
     console.log('[删除]', data)
 }
 
@@ -52,7 +53,7 @@ const deleteComponent = (data, index: number) => {
                     </div>
                     <div class="model-component"
                         :class="componentStoreObj.isCurComponent(element.id) && 'active'"
-                        @click="() => setCurComponent(element, index)"
+                        @click="() => setCurComponent(element)"
                     >
                         <component :is="element.component" v-bind="element" />
                     </div>

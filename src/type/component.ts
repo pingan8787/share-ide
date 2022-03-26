@@ -37,3 +37,30 @@
 
     }
  */
+
+import { type } from "os";
+
+export type ComponentSchemaList = ComponentSchema[];
+
+export type ComponentSchema = {
+    component: string;
+    icon: string;
+    name: string;
+    [key: string]: SchemaValue;
+}
+
+export type SchemaValue = string | number | {[key: string]: any};
+
+
+export type ComponentAttrs = {[key: string]: AttrsValue}
+
+export type AttrsValue = {[key: string]: AttrsValueObject};
+
+export type AttrsValueObject = {[item: string]: AttrsValueItem};
+
+export type AttrsValueItem = {
+    label: string;
+    type: string;
+    value: any;
+    child?: any;
+}

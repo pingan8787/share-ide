@@ -3,10 +3,11 @@ export default { name: 'ExeSchemaTemplate' }
 </script>
 <script setup lang="ts">
 import { ref, onMounted, reactive, watch } from "vue";
+import type { ComponentSchemaList, SchemaValue, AttrsValueObject } from '@/type/component';
 
 let props = defineProps<{
-    schema?: any;
-    modelValue?: any;
+    schema: AttrsValueObject;
+    modelValue: any;
 }>();
 
 const getComponent = (type: string = '') => 'Schema' + type.slice(0,1).toUpperCase() + type.slice(1);
@@ -15,6 +16,10 @@ const isValidChild = (child: any) => {
     const childList = Object.keys(child);
     return Array.isArray(childList) && childList.length > 0;
 };
+
+onMounted(() => {
+    console.log('[props]', props)
+})
 
 </script>
 
