@@ -4,7 +4,9 @@ export default { name: 'SchemaNumber' }
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
+
+let curValue = ref(0);
 
 let props = withDefaults(defineProps<{
     schema?: any;
@@ -14,7 +16,15 @@ let props = withDefaults(defineProps<{
 })
 
 watch(props, (newVal, oldVal) => {
-    emit('update:modelValue', newVal.modelValue)
+    curValue.value = props.modelValue;
+})
+
+onMounted(() => {
+    curValue.value = props.modelValue;
+})
+
+watch(curValue, (newVal, oldVal) => {
+    emit('update:modelValue', newVal)
 })
 
 </script>
@@ -22,7 +32,7 @@ watch(props, (newVal, oldVal) => {
 <template>
     <div class="SchemaNumber">
         <config-item :label="props.schema.label">
-            <el-slider v-model="modelValue" :placeholder="props.schema.value" />
+            <el-slider v-model="curValue" :placeholder="props.schema.value" />
         </config-item>
     </div>
 </template>

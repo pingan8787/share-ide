@@ -11,7 +11,7 @@ const componentStoreObj = componentStore();
 
 let exeSchema = reactive([]); // 物料区的数据
 let exeEdit = ref([]); // 编辑区的数据 最终导出的数据
-let exeAttrs = ref({}); // 属性对象
+let exeAttrs = ref<{[key: string]: any}>({}); // 属性对象
 let curComponent = ref<any>({});
 let curSchemaCollapse = ref(["1"]);
 let showConfigModel = ref(false);
@@ -43,7 +43,7 @@ const cloneSchema = (data) => ({
     id: getRandomCode(8)
 })
 
-const closeConfigModel = (value) => {
+const closeConfigModel = () => {
     componentStoreObj.showCurComponent = false;
 };
 
