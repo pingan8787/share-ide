@@ -28,8 +28,10 @@ watch(components.value, (newVal, oldVal) => {
 })
 
 const deleteComponent = (data: ComponentSchema, index: number) => {
-    console.log('[删除]', data)
+    components.value.splice(index, 1);
 }
+
+const isCurComponent = (id: string) => componentStoreObj.isCurComponent(id);
 
 </script>
 
@@ -48,11 +50,13 @@ const deleteComponent = (data: ComponentSchema, index: number) => {
            
             <template #item="{element, index}">
                 <div class="model-item">
-                    <div class="model-remove model-handle-item" @click="() => deleteComponent(element, index)">
-                        删除
-                    </div>
+                    <div class="model-remove model-handle-item"
+                        v-if="isCurComponent(element.id)"
+                        @click="() => deleteComponent(element, index)"
+                    ><el-icon><delete /></el-icon>删除</div>
+                    <div class="model-remove model-handle-item" v-if="!isCurComponent(element.id)">{{element.name}}</div>
                     <div class="model-component"
-                        :class="componentStoreObj.isCurComponent(element.id) && 'active'"
+                        :class="isCurComponent(element.id) && 'active'"
                         @click="() => setCurComponent(element)"
                     >
                         <component :is="element.component" v-bind="element" />

@@ -32,7 +32,6 @@ onMounted(() => {
 });
 
 watch(curComponent, (newVal, oldVal) => {
-    console.log('[curComponent]',curComponent)
     componentStoreObj.curComponent = newVal;
     if (!componentStoreObj.showCurComponent) {
         componentStoreObj.showCurComponent = true;

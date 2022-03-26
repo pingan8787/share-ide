@@ -17,10 +17,6 @@ const isValidChild = (child: any) => {
     return Array.isArray(childList) && childList.length > 0;
 };
 
-onMounted(() => {
-    console.log('[props]', props)
-})
-
 </script>
 
 <template>
