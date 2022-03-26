@@ -1,5 +1,5 @@
 export const registerSchema = (app: any) => {
-    const ExeSchemas = import.meta.globEager('../exe-components/**/*.json');
+    const ExeSchemas = import.meta.globEager('../ide-components/**/*.json');
     let attrs: any = {}, schema: any = [];
     for (const path in ExeSchemas) {
         const [, , name] = path.split('/');

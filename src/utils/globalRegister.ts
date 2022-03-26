@@ -7,9 +7,9 @@ import * as ElIcons from '@element-plus/icons';
  * import.meta.globEager 为直接引入
  */
 const Components = import.meta.globEager('../components/**/*.vue');
-const ExeComponents = import.meta.globEager('../exe-components/**/*.vue');
-const ExeSchemaTemp = import.meta.globEager('../exe-schema-template/**/*.vue');
-const ExeSchemaConfig = import.meta.globEager('../exe-schema-template/**/config.js');
+const ExeComponents = import.meta.globEager('../ide-components/**/*.vue');
+const ExeSchemaTemp = import.meta.globEager('../ide-schema-template/**/*.vue');
+const ExeSchemaConfig = import.meta.globEager('../ide-schema-template/**/config.js');
 
 const register = (app: any, ctx: any) => {
     for (const path in ctx) {
