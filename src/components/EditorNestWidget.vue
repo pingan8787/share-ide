@@ -26,6 +26,10 @@ watch(components.value, (newVal, oldVal) => {
     emit('update:modelValue', newVal);
 })
 
+const deleteComponent = (data, index: number) => {
+    console.log('[删除]', data)
+}
+
 </script>
 
 <template>
@@ -35,19 +39,23 @@ watch(components.value, (newVal, oldVal) => {
             :sort="true"
             :animation="500"
             class="container"
-            group="exeSchema"
+            group="globalSchema"
             item-key="component"
             ghostClass="ghost"
             chosenClass="chosen"
         >
            
             <template #item="{element, index}">
-                <div
-                    class="model-item"
-                    :class="componentStoreObj.isCurComponent(element.id) && 'active'"
-                    @click="() => setCurComponent(element, index)"
-                >
-                    <component :is="element.component" v-bind="element" />
+                <div class="model-item">
+                    <div class="model-remove model-handle-item" @click="() => deleteComponent(element, index)">
+                        删除
+                    </div>
+                    <div class="model-component"
+                        :class="componentStoreObj.isCurComponent(element.id) && 'active'"
+                        @click="() => setCurComponent(element, index)"
+                    >
+                        <component :is="element.component" v-bind="element" />
+                    </div>
                 </div>
             </template>
         </draggable>
@@ -62,12 +70,44 @@ watch(components.value, (newVal, oldVal) => {
         min-height: 667px;;
     }
     .model-item {
+        position: relative;
         border: 1px solid transparent;
         &.active {
-            border: 1px solid var(--el-color-primary);
+            border: 1px solid $primary-color;
         }
         &:hover {
-            border: 1px dotted var(--el-color-primary);
+            border: 1px dotted $primary-color;
+        }
+        .model-handle-item {
+            position: absolute;
+            top: 0; /*no*/
+            right: -87px;// TODO：可以改成动态计算
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px; /*no*/
+            height: 24px; /*no*/
+            font-size: 12px; /*no*/
+            color: #333;
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+
+            &::after {
+            content: "";
+            position: absolute;
+            right: 100%; /*no*/
+            top: 7px; /*no*/
+            width: 0; /*no*/
+            height: 0; /*no*/
+            border-width: 5px; /*no*/
+            border-style: solid;
+            border-color: transparent;
+            margin-bottom: -1px; /*no*/
+            border-right-width: 5px; /*no*/
+            border-right-color: currentColor;
+            color: #fff;
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-export default { name: 'ExeKnowledge' }
+export default { name: 'KnowledgeComponent' }
 </script>
 <script setup lang="ts">
 import { ref } from 'vue'

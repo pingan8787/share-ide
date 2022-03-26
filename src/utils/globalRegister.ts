@@ -7,9 +7,9 @@ import * as ElIcons from '@element-plus/icons';
  * import.meta.globEager 为直接引入
  */
 const Components = import.meta.globEager('../components/**/*.vue');
-const ExeComponents = import.meta.globEager('../ide-components/**/*.vue');
-const ExeSchemaTemp = import.meta.globEager('../ide-schema-template/**/*.vue');
-const ExeSchemaConfig = import.meta.globEager('../ide-schema-template/**/config.js');
+const IDEComponents = import.meta.globEager('../ide-components/**/*.vue');
+const IDESchemaTemp = import.meta.globEager('../ide-schema-template/**/*.vue');
+const IDESchemaConfig = import.meta.globEager('../ide-schema-template/**/config.js');
 
 const register = (app: any, ctx: any) => {
     for (const path in ctx) {
@@ -23,8 +23,8 @@ const register = (app: any, ctx: any) => {
 // 全局注册所有组件
 export const globalRegisterComponent = (app: any) => {
     app = register(app, Components);    // 注册全局布局组件
-    app = register(app, ExeComponents); // 注册全局物料组件
-    app = register(app, ExeSchemaTemp); // 注册全局 Schema 组件
+    app = register(app, IDEComponents); // 注册全局物料组件
+    app = register(app, IDESchemaTemp); // 注册全局 Schema 组件
 
     return app;
 }
@@ -40,8 +40,8 @@ export const globalRegisterIcon = (app: any) => {
 // 全局注册所有组件默认配置
 export const globalRegisterConfig = (app: any) => {
     let defaultValue: any = {};
-    for (const path in ExeSchemaConfig) {
-        const curValue = ExeSchemaConfig[path];
+    for (const path in IDESchemaConfig) {
+        const curValue = IDESchemaConfig[path];
         const [, , , name] = path.split('/');
         defaultValue[name] = { ...(curValue.default || curValue) }
     }

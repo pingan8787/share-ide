@@ -43,7 +43,7 @@ let props = defineProps<{
     transition: var(--el-transition-duration-fast);
 }
 .avatar-uploader .el-upload:hover {
-    border-color: var(--el-color-primary);
+    border-color: $primary-color;
 }
 .el-icon.avatar-uploader-icon {
     font-size: 28px;

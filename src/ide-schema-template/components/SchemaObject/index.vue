@@ -32,7 +32,7 @@ let props = defineProps<{
         color: #323233;
         span {
             padding-left: 8px;
-            border-left: 4px solid var(--el-color-primary);
+            border-left: 4px solid $primary-color;
         }
     }
 }

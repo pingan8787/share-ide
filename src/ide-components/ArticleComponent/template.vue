@@ -1,5 +1,5 @@
 <script lang="ts">
-export default { name: 'ExeArticle' }
+export default { name: 'ArticleComponent' }
 </script>
 <script setup lang="ts">
 import { ref, onMounted, reactive } from "vue";
@@ -22,7 +22,7 @@ const getImgStyle = () => {
 </script>
 
 <template>
-    <div class="ExeArticle">
+    <div class="ArticleComponent">
         <div class="container img-left">
             <div class="img">
                 <img :src="props.cover" :style="getImgStyle()" />
@@ -36,7 +36,7 @@ const getImgStyle = () => {
 </template>
 
 <style scoped lang="scss">
-.ExeArticle {
+.ArticleComponent {
     padding: 12px;
     .img-left {
         flex-direction: row;

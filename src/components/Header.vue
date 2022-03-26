@@ -33,6 +33,7 @@ const toPreview = () => {
       <div class="buttons">
           <el-button @click="toSchema"><el-icon class="header-icon"><monitor /></el-icon>Schema 生成器</el-button>
           <el-button @click="toPreview"><el-icon class="header-icon"><iphone /></el-icon>预览页面</el-button>
+          <el-button @click="toPreview"><el-icon class="header-icon"><position /></el-icon>发布</el-button>
       </div>
   </div>
 </template>

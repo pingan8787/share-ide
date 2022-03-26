@@ -9,32 +9,33 @@ import { getRandomCode } from "@/utils/utils";
 import componentStore from '@/store/component';
 const componentStoreObj = componentStore();
 
-let exeSchema = reactive([]); // 物料区的数据
-let exeEdit = ref([]); // 编辑区的数据 最终导出的数据
-let exeAttrs = ref<{[key: string]: any}>({}); // 属性对象
+let globalSchema = reactive([]); // 物料区的数据
+let editData = ref([]); // 编辑区的数据 最终导出的数据
+let globalAttrs = ref<{ [key: string]: any }>({}); // 属性对象
 let curComponent = ref<any>({});
 let curSchemaCollapse = ref(["1"]);
-let showConfigModel = ref(false);
 
 const hasCurComponent = computed(() => Object.keys(componentStoreObj.curComponent).length > 0);
 const curSchema = computed(() => {
     const { component = '' } = curComponent.value;
-    return component ? exeAttrs.value[component] : reactive({});
+    return component ? globalAttrs.value[component] : reactive({});
 });
 
 onMounted(() => {
-    exeSchema.push(...getProperty("$exeSchema"));
-    exeAttrs.value = getProperty("$exeAttrs");
+    globalSchema.push(...getProperty("$GlobalSchema"));
+    globalAttrs.value = getProperty("$GlobalAttrs");
+    console.log('[globalSchema]', globalSchema)
+    console.log('[globalAttrs]', globalAttrs.value)
 });
 
 watch(curComponent, (newVal, oldVal) => {
     componentStoreObj.curComponent = newVal;
-    if(!componentStoreObj.showCurComponent){
+    if (!componentStoreObj.showCurComponent) {
         componentStoreObj.showCurComponent = true;
     }
 })
 
-watch(exeEdit, (newVal, oldVal) => {
+watch(editData, (newVal, oldVal) => {
     componentStoreObj.editData = newVal;
 });
 
@@ -67,8 +68,8 @@ const updateCurComponent = (value) => {
             <el-collapse v-model="curSchemaCollapse">
                 <el-collapse-item title="通用物料" name="1">
                     <draggable
-                        :list="exeSchema"
-                        :group="{ name: 'exeSchema', pull: 'clone', put: false }"
+                        :list="globalSchema"
+                        :group="{ name: 'globalSchema', pull: 'clone', put: false }"
                         :clone="cloneSchema"
                         :animation="300"
                         :sort="false"
@@ -87,14 +88,18 @@ const updateCurComponent = (value) => {
                         </template>
                     </draggable>
                 </el-collapse-item>
-                <el-collapse-item title="EXE 物料" name="2">开发中...</el-collapse-item>
+                <el-collapse-item title="基础物料" name="2">开发中...</el-collapse-item>
                 <el-collapse-item title="更多物料" name="3">开发中...</el-collapse-item>
             </el-collapse>
         </div>
         <div class="EditorCtrl">
             <div class="panel">
                 <div class="panel-container">
-                    <EditorNestWidget v-model="exeEdit" @updateCurComponent="updateCurComponent"></EditorNestWidget>
+                    <div class="panel-header">
+                        <div class="item active">编辑模式</div>
+                        <div class="item">预览模式</div>
+                    </div>
+                    <EditorNestWidget v-model="editData" @updateCurComponent="updateCurComponent"></EditorNestWidget>
                 </div>
             </div>
         </div>
@@ -127,7 +132,7 @@ const updateCurComponent = (value) => {
     .editor-title {
         font-size: 18px;
         padding-left: 8px;
-        border-left: 4px solid var(--el-color-primary);
+        border-left: 4px solid $primary-color;
         border-radius: 4px;
         margin-bottom: 8px;
         display: flex;
@@ -139,67 +144,88 @@ const updateCurComponent = (value) => {
             cursor: pointer;
         }
     }
-    .EditorSchema {
-        width: 220px;
-        height: calc(100vh - 62px);
-        padding: 10px 20px;
-        background: #fff;
-        .model-item {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100px;
-            padding: 16px 0;
-            font-size: 12px;
-            color: #666;
-            cursor: pointer;
-            .icon {
-                margin-bottom: 10px;
-                width: 30px;
-                height: 30px;
+}
+
+.EditorSchema {
+    width: 220px;
+    height: calc(100vh - 62px);
+    padding: 10px 20px;
+    background: #fff;
+    .model-item {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100px;
+        padding: 16px 0;
+        font-size: 12px;
+        color: #666;
+        cursor: pointer;
+        .icon {
+            margin-bottom: 10px;
+            width: 30px;
+            height: 30px;
+        }
+        &:hover {
+            color: #fff !important;
+            background: $primary-color;
+            .canvas-left-item-type {
+                color: #fff;
             }
-            &:hover {
-                color: #fff !important;
-                background: var(--el-color-primary);
-                .canvas-left-item-type {
-                    color: #fff;
+        }
+    }
+}
+.EditorCtrl {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    height: 100%;
+    overflow: auto;
+    .panel {
+        width: 100%;
+        max-width: 900px;
+        .panel-container {
+            width: 375px;
+            min-height: 667px;
+            margin: 50px auto;
+            background: #fff;
+            box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.1);
+            position: relative;
+            .panel-header {
+                position: absolute;
+                top: -34px;
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+                .item {
+                    cursor: pointer;
+                    padding: 4px 8px;
+                    font-size: 14px;
+                    background-color: #fff;
+                    border: 1px solid #dcdee0;
+                    &.active {
+                        color: $primary-color;
+                        border-color: $primary-color;
+                        background-color: $primary-bg-color;
+                    }
                 }
             }
         }
     }
-    .EditorCtrl {
-        display: flex;
-        justify-content: center;
-        flex: 1;
-        height: 100%;
-        overflow: auto;
-        .panel {
-            width: 100%;
-            max-width: 900px;
-            .panel-container {
-                width: 375px;
-                min-height: 667px;
-                margin: 50px auto;
-                background: #fff;
-                box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.1);
-            }
-        }
-    }
-    .EditorConfig {
-        width: 360px;
-        height: calc(100vh - 62px);
-        overflow: auto;
-        animation-duration: 0.2s;
+}
+.EditorConfig {
+    width: 360px;
+    height: calc(100vh - 62px);
+    overflow: auto;
+    animation-duration: 0.2s;
+    padding: 10px;
+    background: #fff;
+    .config-id {
         padding: 10px;
-        background: #fff;
-        .config-id {
-            padding: 10px;
-            color: #969799;
-            font-size: 14px;
-        }
+        color: #969799;
+        font-size: 14px;
     }
 }
-
 // 拖动时在画布上的样式
 .ghost {
     opacity: 0.4;

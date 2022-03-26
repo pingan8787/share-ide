@@ -1,15 +1,15 @@
 export const registerSchema = (app: any) => {
-    const ExeSchemas = import.meta.globEager('../ide-components/**/*.json');
+    const IDESchemas = import.meta.globEager('../ide-components/**/*.json');
     let attrs: any = {}, schema: any = [];
-    for (const path in ExeSchemas) {
+    for (const path in IDESchemas) {
         const [, , name] = path.split('/');
-        const curSchema = ExeSchemas[path];
+        const curSchema = IDESchemas[path];
         const config = { component: name, ...(curSchema.default || curSchema) }
         attrs[name] = config.attrs;
         schema.push(initDefaultValue(config));
     }
-    app.config.globalProperties.$exeAttrs = attrs;
-    app.config.globalProperties.$exeSchema = schema;
+    app.config.globalProperties.$GlobalAttrs = attrs;
+    app.config.globalProperties.$GlobalSchema = schema;
     return app;
 }
 

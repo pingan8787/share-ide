@@ -1,6 +1,6 @@
 {
     "name": "课程卡片",
-    "icon": "document",
+    "icon": "iphone",
     "attrs": {
         "title": {
             "label": "课程标题",
