@@ -29,7 +29,9 @@ onMounted(() => {
 
 watch(curComponent, (newVal, oldVal) => {
     componentStoreObj.curComponent = newVal;
-    componentStoreObj.showCurComponent = !componentStoreObj.showCurComponent;
+    if(!componentStoreObj.showCurComponent){
+        componentStoreObj.showCurComponent = true;
+    }
 })
 
 watch(exeEdit, (newVal, oldVal) => {
@@ -42,7 +44,7 @@ const cloneSchema = (data) => ({
 })
 
 const closeConfigModel = (value) => {
-    componentStore.showCurComponent = false;
+    componentStoreObj.showCurComponent = false;
 };
 
 const updateCurComponent = (value) => {
@@ -96,8 +98,7 @@ const updateCurComponent = (value) => {
                 </div>
             </div>
         </div>
-         <!-- v-if="hasCurComponent && showConfigModel" -->
-        <div class="EditorConfig">
+        <div class="EditorConfig" v-if="componentStoreObj.showCurComponent">
             <div class="editor-title">
                 <div class="left">配置区</div>
                 <div class="right" @click="() => closeConfigModel(false)">
