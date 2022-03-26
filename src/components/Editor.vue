@@ -110,19 +110,18 @@ const updateCurComponent = (data: ComponentSchema) => {
             <div class="editor-title">
                 <div class="left">配置区</div>
                 <div class="right" @click="closeConfigModel">
-                    <el-icon>
-                        <close />
-                    </el-icon>
+                    <el-icon><zoom-in /></el-icon>
                 </div>
             </div>
             <div class="config-id">当前物料ID：{{ curComponent.id }}</div>
             <ExeSchemaTemplate :schema="curSchema" v-model="curComponent"></ExeSchemaTemplate>
             <hr />
-            <div>
+            <div class="edit-code">
                 <b>当前组件模型：</b>
-                <div>{{ curSchema }}</div>
+                <!-- <div>{{ curSchema }}</div> -->
+                <highlightjs language='json' :code="JSON.stringify(curSchema)" />
                 <b>当前组件数据：</b>
-                <div>{{ curComponent }}</div>
+                <highlightjs language='json' :code="JSON.stringify(curComponent)" />
             </div>
         </div>
     </div>
@@ -228,6 +227,12 @@ const updateCurComponent = (data: ComponentSchema) => {
         padding: 10px;
         color: #969799;
         font-size: 14px;
+    }
+    .edit-code {
+        pre {
+            white-space: pre-wrap!important;
+            word-wrap: break-word!important;
+        }
     }
 }
 // 拖动时在画布上的样式

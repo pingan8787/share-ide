@@ -3,17 +3,22 @@ import { createPinia } from 'pinia';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import draggable from 'vuedraggable';
+import hljsVuePlugin from '@highlightjs/vue-plugin';
 
 import router from '@/router';
 import App from './App.vue';
 import { globalRegisterComponent, globalRegisterIcon, globalRegisterConfig } from '@/utils/globalRegister';
 import { registerSchema } from '@/utils/registerSchema';
 
+import 'highlight.js/styles/atom-one-dark.css';
+import 'highlight.js/lib/common';
+
 let app = createApp(App);
 
 app.use(router);
 app.use(createPinia());
 app.use(ElementPlus);
+app.use(hljsVuePlugin);
 
 app.component("draggable", draggable);
 app = globalRegisterComponent(app);
