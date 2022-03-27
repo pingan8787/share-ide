@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import ElementPlus from 'element-plus';
-// import 'element-plus/dist/index.css';
+import 'element-plus/dist/index.css';
 import draggable from 'vuedraggable';
 import hljsVuePlugin from '@highlightjs/vue-plugin';
 
@@ -19,6 +19,10 @@ app.use(router);
 app.use(createPinia());
 app.use(ElementPlus);
 app.use(hljsVuePlugin);
+
+app.config.errorHandler = (err, vm, info) => {
+    console.log('[全局异常]', err, vm, info)
+}
 
 app.component("draggable", draggable);
 app = globalRegisterComponent(app);

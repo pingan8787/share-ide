@@ -33,9 +33,6 @@ onMounted(() => {
 
 watch(curComponent, (newVal, oldVal) => {
     componentStoreObj.curComponent = newVal;
-    if (!componentStoreObj.showCurComponent) {
-        componentStoreObj.showCurComponent = true;
-    }
 })
 
 watch(editData, (newVal, oldVal) => {
@@ -110,7 +107,7 @@ const updateCurComponent = (data: ComponentSchema) => {
             <div class="editor-title">
                 <div class="left">配置区</div>
                 <div class="right" @click="closeConfigModel">
-                    <el-icon><zoom-in /></el-icon>
+                    <el-icon><close /></el-icon>
                 </div>
             </div>
             <div class="config-id">当前物料ID：{{ curComponent.id }}</div>
@@ -217,7 +214,7 @@ const updateCurComponent = (data: ComponentSchema) => {
     }
 }
 .EditorConfig {
-    width: 360px;
+    width: 380px;
     height: calc(100vh - 62px);
     overflow: auto;
     animation-duration: 0.2s;

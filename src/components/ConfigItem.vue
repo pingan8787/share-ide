@@ -29,9 +29,9 @@ let props = defineProps<{
         width: 100%;
         box-sizing: border-box;
         .label {
-            color: #969799;
+            color: $main-text-color;
             font-size: 14px;
-            width: 70px;
+            width: 100px;
         }
         .main {
             flex: 1;

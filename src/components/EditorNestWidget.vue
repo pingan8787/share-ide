@@ -17,6 +17,7 @@ let props = defineProps<{
 
 const setCurComponent = (data: ComponentSchema) => {
     emit('updateCurComponent', data)
+    componentStoreObj.showCurComponent = true;
 }
 
 watch(props.modelValue, (newVal, oldVal) => {
@@ -49,16 +50,13 @@ const isCurComponent = (id: string) => componentStoreObj.isCurComponent(id);
         >
            
             <template #item="{element, index}">
-                <div class="model-item">
+                <div class="model-item" :class="isCurComponent(element.id) && 'active'">
                     <div class="model-remove model-handle-item"
                         v-if="isCurComponent(element.id)"
                         @click="() => deleteComponent(element, index)"
                     ><el-icon><delete /></el-icon>删除</div>
-                    <div class="model-remove model-handle-item" v-if="!isCurComponent(element.id)">{{element.name}}</div>
-                    <div class="model-component"
-                        :class="isCurComponent(element.id) && 'active'"
-                        @click="() => setCurComponent(element)"
-                    >
+                    <div class="model-text model-handle-item" v-if="!isCurComponent(element.id)">{{element.name}}</div>
+                    <div class="model-component" @click="() => setCurComponent(element)">
                         <component :is="element.component" v-bind="element" />
                     </div>
                 </div>
@@ -79,6 +77,9 @@ const isCurComponent = (id: string) => componentStoreObj.isCurComponent(id);
         border: 1px solid transparent;
         &.active {
             border: 1px solid $primary-color;
+            .model-remove {
+                color: $primary-color;
+            }
         }
         &:hover {
             border: 1px dotted $primary-color;

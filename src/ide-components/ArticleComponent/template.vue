@@ -5,10 +5,11 @@ export default { name: 'ArticleComponent' }
 import { ref, onMounted, reactive } from "vue";
 
 let props = defineProps<{
-    title?: any;
-    desc?: any;
-    cover?: any;
+    title?: string;
+    desc?: string;
+    cover?: string;
     styles?: any;
+    link?: string;
 }>();
 
 const getImgStyle = () => {
@@ -32,6 +33,7 @@ const getImgStyle = () => {
                 <div class="desc">{{ props.desc }}</div>
             </div>
         </div>
+        <div>地址：{{ props.link }}</div>
     </div>
 </template>
 

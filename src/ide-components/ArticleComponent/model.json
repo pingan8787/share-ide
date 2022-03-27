@@ -17,6 +17,14 @@
             "type": "image",
             "value": "https://element-plus.gitee.io/images/element-plus-logo.svg"
         },
+        "link": {
+            "label": "文章链接",
+            "type": "link",
+            "value": "https://www.baidu.com",
+            "options": {
+                "originUrl" : "localhost:8899/list"
+            }
+        },
         "styles": {
             "label": "封面设置",
             "type": "object",
