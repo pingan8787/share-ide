@@ -9,11 +9,13 @@ import router from '@/router';
 import App from './App.vue';
 import { globalRegisterComponent, globalRegisterIcon, globalRegisterConfig } from '@/utils/globalRegister';
 import { registerSchema } from '@/utils/registerSchema';
+import axios from '@/request/axios.config';
 
 import 'highlight.js/styles/atom-one-dark.css';
 import 'highlight.js/lib/common';
 
 let app = createApp(App);
+app.config.globalProperties.$api = axios;
 
 app.use(router);
 app.use(createPinia());

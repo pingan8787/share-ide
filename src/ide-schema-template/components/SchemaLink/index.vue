@@ -2,7 +2,7 @@
 export default { name: 'SchemaLink' }
 </script>
 <script setup lang="ts">
-import { ref, reactive, onMounted, watch, computed } from "vue";
+import { ref, reactive, onMounted, watch, getCurrentInstance } from "vue";
 import type { AttrsValueItem } from '@/type/component';
 import DefaultOptions from './options';
 
@@ -24,6 +24,10 @@ onMounted(() => {
     console.log('[Schema Link]', props)
     curValue.value = props.modelValue;
     initOptions(); // 使用配置中的 options
+
+    // 测试发送请求
+    const { proxy } = getCurrentInstance();
+    proxy.$api.get('http://localhost:8899/list');
 })
 
 const initOptions = () => {
