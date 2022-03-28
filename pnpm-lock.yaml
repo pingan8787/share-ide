@@ -11,6 +11,7 @@ specifiers:
   element-plus: ^2.1.4
   highlight.js: ^11.5.0
   lodash: ^4.17.21
+  mitt: ^3.0.0
   pinia: ^2.0.12
   sass: ^1.49.9
   unplugin-auto-import: ^0.6.6
@@ -34,6 +35,7 @@ devDependencies:
   element-plus: 2.1.4_1a412d14def5ff5ca1122000e4bee666
   highlight.js: 11.5.0
   lodash: 4.17.21
+  mitt: 3.0.0
   pinia: 2.0.12_vue@3.2.31
   sass: 1.49.9
   unplugin-auto-import: 0.6.6_vite@2.8.6
@@ -741,6 +743,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: 2.0.1
+    dev: true
+
+  /mitt/3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
     dev: true
 
   /ms/2.1.2:

@@ -33,7 +33,7 @@ const getImgStyle = () => {
                 <div class="desc">{{ props.desc }}</div>
             </div>
         </div>
-        <div>地址：{{ props.link }}</div>
+        <div class="target-url">跳转地址：{{ props.link }}</div>
     </div>
 </template>
 
@@ -67,20 +67,23 @@ const getImgStyle = () => {
             flex: 1;
             .title {
                 font-size: 16px;
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 2;
-                overflow: hidden;
+                @include show-line;
             }
             .desc {
                 margin-top: 6px;
                 font-size: 12px;
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 2;
-                overflow: hidden;
+                @include show-line;
             }
         }
+    }
+    .target-url {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: rgba($color: $primary-color, $alpha: 0.6);
+        font-size: 12px;
+        color: #fff;
+        padding: 4px;
     }
 }
 </style>

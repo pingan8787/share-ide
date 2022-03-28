@@ -4,14 +4,24 @@ export default { name: 'SchemaLink' }
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch, getCurrentInstance } from "vue";
 import type { AttrsValueItem } from '@/type/component';
+import { CHANGE_CUR_COMPONENT } from '@/event/eventNames';
+import SchemaLinkRemote from './remoteUrl.vue';
 import DefaultOptions from './options';
 
 const emit = defineEmits(['update:modelValue']);
 let curOptions = reactive(DefaultOptions.options.options);
+const { proxy } = getCurrentInstance();
 
-let curValue = ref('');
+/**
+ * 选择链接，支持三种模式
+    1.手动输入链接  -- input
+    2.请求远程链接（固定接口） --- select
+    3.请求远程链接（自定义接口） --- remote
+ */
+
+let curInputValue = ref(''); // 手动输入链接
 let curSelect = ref(curOptions[0]); // 当前选中的对象
-let curSelectValue = ref(curSelect.value['value']); // 当前选中对象的值
+let curSelectValue = ref(curSelect.value['value']); // 请求远程链接（固定接口） 
 
 let props = withDefaults(defineProps<{
     schema: AttrsValueItem;
@@ -22,13 +32,19 @@ let props = withDefaults(defineProps<{
 
 onMounted(() => {
     console.log('[Schema Link]', props)
-    curValue.value = props.modelValue;
+    curInputValue.value = props.modelValue;
     initOptions(); // 使用配置中的 options
-
-    // 测试发送请求
-    const { proxy } = getCurrentInstance();
-    proxy.$api.get('http://localhost:8899/list');
+    proxy.$eventBus.on(CHANGE_CUR_COMPONENT, function(data: any){
+        console.log('[当前组件变化]',data)
+        initValue();
+    })
 })
+
+const initValue = () => {
+    curInputValue.value = props.modelValue;
+    curSelect.value = curOptions[0];
+    curSelectValue.value = curSelect.value['value'];
+}
 
 const initOptions = () => {
     const { options } = props.schema;
@@ -44,10 +60,10 @@ const initOptions = () => {
 }
 
 watch(props, (newVal, oldVal) => {
-    curValue.value = props.modelValue;
+    curInputValue.value = props.modelValue;
 })
 
-watch(curValue, (newVal, oldVal) => {
+watch(curInputValue, (newVal, oldVal) => {
     emit('update:modelValue', newVal)
 })
 
@@ -58,7 +74,6 @@ watch(curSelectValue, (newVal, oldVal) => {
         }
     })
 })
-
 
 </script>
 
@@ -75,10 +90,13 @@ watch(curSelectValue, (newVal, oldVal) => {
             </el-select>
         </config-item>
 
+        <SchemaLinkRemote v-if="curSelectValue === 'remote'" :schema="props.schema" v-model="curInputValue"></SchemaLinkRemote>
+
         <config-item :label="curSelect.label">
             <div v-if="curSelectValue === 'input'">
-                <el-input v-model="curValue" />
+                <el-input v-model="curInputValue" />
             </div>
+
             <div v-if="curSelectValue === 'select'">
                 <div v-if="!props.schema.options.originUrl" class="common-text">请在组件中配置 "originUrl" 字段！</div>
                 <div v-else>

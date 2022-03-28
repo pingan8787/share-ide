@@ -4,6 +4,8 @@ export default { name: 'EditorNestWidget' }
 <script setup lang="ts">
 import { ref, watch, reactive, onMounted } from "vue";
 import type { ComponentSchemaList, ComponentSchema } from '@/type/component';
+import { CHANGE_CUR_COMPONENT } from '@/event/eventNames';
+import eventBus from '@/event/eventBus';
 import componentStore from '@/store/component';
 const componentStoreObj = componentStore();
 
@@ -17,6 +19,7 @@ let props = defineProps<{
 
 const setCurComponent = (data: ComponentSchema) => {
     emit('updateCurComponent', data)
+    eventBus.emit(CHANGE_CUR_COMPONENT, data);
     componentStoreObj.showCurComponent = true;
 }
 

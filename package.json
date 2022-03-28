@@ -21,6 +21,7 @@
     "element-plus": "^2.1.4",
     "highlight.js": "^11.5.0",
     "lodash": "^4.17.21",
+    "mitt": "^3.0.0",
     "pinia": "^2.0.12",
     "sass": "^1.49.9",
     "unplugin-auto-import": "^0.6.6",
